@@ -1,4 +1,4 @@
-package space.xorex.jmhdemo.oracle21c;
+package space.xorex.jmhdemo.select;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ public class HandleData {
     public static void prepareData() throws Exception {
         String url = "jdbc:oracle:thin:@192.168.10.20:1522:LHRCDB";
         String username = "system";
-        String password = "sphereEx";
+        String password = "";
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         try(Connection connection = DriverManager.getConnection(url, username, password)) {
@@ -30,7 +30,7 @@ public class HandleData {
     public static void deleteData() throws Exception {
         String url = "jdbc:oracle:thin:@192.168.10.20:1522:LHRCDB";
         String username = "system";
-        String password = "sphereEx";
+        String password = "";
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         try(Connection connection = DriverManager.getConnection(url, username, password)) {

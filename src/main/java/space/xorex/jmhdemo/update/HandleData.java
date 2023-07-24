@@ -1,4 +1,4 @@
-package space.xorex.jmhdemo.oracle11g;
+package space.xorex.jmhdemo.update;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
