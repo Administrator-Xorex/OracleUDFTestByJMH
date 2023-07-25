@@ -17,7 +17,7 @@ public class HandleData {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         try(Connection connection = DriverManager.getConnection(url, username, password)) {
             try(PreparedStatement insert = connection.prepareStatement("insert into sbtest1 (id,c) values(?,?) ")) {
-                for (int i = 1; i <= 100000; i++) {
+                for (int i = 1; i <= 1000000; i++) {
                     insert.setInt(1, i);
                     insert.setString(2, String.valueOf(i));
                     insert.execute();

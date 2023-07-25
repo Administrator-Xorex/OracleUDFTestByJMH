@@ -23,7 +23,7 @@ public class TestNoUDFPerformance {
                 .warmupIterations(1)
                 .warmupTime(new TimeValue(30,TimeUnit.SECONDS))
                 .measurementIterations(2)
-                .measurementTime(new TimeValue(120,TimeUnit.SECONDS))
+                .measurementTime(new TimeValue(60,TimeUnit.SECONDS))
                 .build();
         new Runner(opt).run();
     }
@@ -36,7 +36,7 @@ public class TestNoUDFPerformance {
     public void setup() throws Exception {
         String url = "jdbc:oracle:thin:@192.168.10.20:1522:LHRCDB";
         String username = "system";
-        String password = "sphereEx";
+        String password = "";
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         connection = DriverManager.getConnection(url,username,password);
@@ -46,19 +46,18 @@ public class TestNoUDFPerformance {
 
     @Benchmark
     public void ReadWrite() throws Exception {
-        int num = (int)(Math.random()*100000);
+        int num = (int)(Math.random()*1000000);
 
         read.setInt(1, num);
         ResultSet resultSet = read.executeQuery();
         while(resultSet.next()) {
             String ans = resultSet.getString(1);
-            ans = prefix(ans);
+            ans = simpleReturn(ans);
         }
     }
 
-    public String prefix(String str) {
-        if(str.startsWith("prefix")) return str;
-        else return "prefix" + str;
+    public String simpleReturn(String str) {
+        return str;
     }
 
     @TearDown(Level.Trial)

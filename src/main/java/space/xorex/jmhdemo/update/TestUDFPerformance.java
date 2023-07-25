@@ -17,13 +17,13 @@ public class TestUDFPerformance {
     public static void main(String[] args) throws Exception {
 
         Options opt = new OptionsBuilder()
-                .include(space.xorex.jmhdemo.select.TestUDFPerformance.class.getName())
+                .include(space.xorex.jmhdemo.update.TestUDFPerformance.class.getName())
                 .forks(1)
                 .threads(200)
                 .warmupIterations(1)
                 .warmupTime(new TimeValue(30,TimeUnit.SECONDS))
                 .measurementIterations(2)
-                .measurementTime(new TimeValue(120,TimeUnit.SECONDS))
+                .measurementTime(new TimeValue(60,TimeUnit.SECONDS))
                 .build();
         new Runner(opt).run();
 
@@ -42,12 +42,12 @@ public class TestUDFPerformance {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         connection = DriverManager.getConnection(url,username,password);
 
-        update = connection.prepareStatement("update sbtest1 set c = udf_prefix(c) where id = ?");
+        update = connection.prepareStatement("update sbtest1 set c = simpleReturn(c) where id = ?");
     }
 
     @Benchmark
     public void ReadWrite() throws Exception {
-        int num = (int)(Math.random()*100000);
+        int num = (int)(Math.random()*1000000);
         update.setInt(1, num);
         update.executeUpdate();
     }

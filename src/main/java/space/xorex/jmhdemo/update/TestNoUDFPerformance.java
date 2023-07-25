@@ -17,13 +17,13 @@ public class TestNoUDFPerformance {
     public static void main(String[] args) throws Exception {
 
         Options opt = new OptionsBuilder()
-                .include(space.xorex.jmhdemo.select.TestNoUDFPerformance.class.getName())
+                .include(space.xorex.jmhdemo.update.TestNoUDFPerformance.class.getName())
                 .forks(1)
-                .threads(100)
+                .threads(200)
                 .warmupIterations(1)
                 .warmupTime(new TimeValue(30,TimeUnit.SECONDS))
                 .measurementIterations(2)
-                .measurementTime(new TimeValue(120,TimeUnit.SECONDS))
+                .measurementTime(new TimeValue(60,TimeUnit.SECONDS))
                 .build();
         new Runner(opt).run();
     }
@@ -46,15 +46,14 @@ public class TestNoUDFPerformance {
 
     @Benchmark
     public void ReadWrite() throws Exception {
-        int num = (int)(Math.random()*100000);
-        update.setString(1, prefix(String.valueOf(num)));
+        int num = (int)(Math.random()*1000000);
+        update.setString(1, simpleReturn(String.valueOf(num)));
         update.setInt(2, num);
         update.executeUpdate();
     }
 
-    public String prefix(String str) {
-        if(str.startsWith("prefix")) return str;
-        else return "prefix" + str;
+    public String simpleReturn(String str) {
+        return str;
     }
 
     @TearDown(Level.Trial)

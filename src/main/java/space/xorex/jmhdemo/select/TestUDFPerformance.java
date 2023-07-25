@@ -23,7 +23,7 @@ public class TestUDFPerformance {
                 .warmupIterations(1)
                 .warmupTime(new TimeValue(30,TimeUnit.SECONDS))
                 .measurementIterations(2)
-                .measurementTime(new TimeValue(120,TimeUnit.SECONDS))
+                .measurementTime(new TimeValue(60,TimeUnit.SECONDS))
                 .build();
         new Runner(opt).run();
 
@@ -42,12 +42,12 @@ public class TestUDFPerformance {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         connection = DriverManager.getConnection(url,username,password);
 
-        read = connection.prepareStatement("select udf_prefix(c) from sbtest1 where id = ?");
+        read = connection.prepareStatement("select simpleReturn(c) from sbtest1 where id = ?");
     }
 
     @Benchmark
     public void ReadWrite() throws Exception {
-        int num = (int)(Math.random()*100000);
+        int num = (int)(Math.random()*1000000);
 
         read.setInt(1, num);
         ResultSet resultSet = read.executeQuery();
